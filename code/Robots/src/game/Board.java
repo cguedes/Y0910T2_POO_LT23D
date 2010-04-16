@@ -1,6 +1,6 @@
 package game;
 
-import java.util.Currency;
+import console.GraphConsole;
 
 public class Board {
 
@@ -26,29 +26,33 @@ public class Board {
 	
 	public void show() 
 	{
+		GraphConsole.gotoXY(0, 0);
+		
 		// Desenhar a primeira linha
-		System.out.print('+');
-		for (int x = 0; x < this.getNumCols(); x++) System.out.print('-');
-		System.out.println('+');
+		GraphConsole.write("+");
+		for (int x = 0; x < this.getNumCols(); x++) GraphConsole.write("-");
+		GraphConsole.write("+");
 		
 		// Desenhar as linhas do meio
 		for (int y = 0; y < this.getNumLines(); y++) {
-			System.out.print('|');
+			GraphConsole.gotoXY(0, y+1);
+			GraphConsole.write("|");
 			for (int x = 0; x < this.getNumCols(); x++)
 			{
 				char currentElementChar = ' ';
 				if(hero.isInPosition(x, y))
 					currentElementChar = hero.toSymbol();
 				
-				System.out.print(currentElementChar);
+				GraphConsole.write("" + currentElementChar);
 			}
-			System.out.println('|');
+			GraphConsole.write("|");
 		}
 		
 		// Desenhar a última linha
-		System.out.print('+');
-		for (int x = 0; x < this.getNumCols(); x++) System.out.print('-');
-		System.out.println('+');
+		GraphConsole.gotoXY(0, numLines+1);
+		GraphConsole.write("+");
+		for (int x = 0; x < this.getNumCols(); x++) GraphConsole.write("-");
+		GraphConsole.write("+");
 	}
 
 	public void translateActor(int x, int y) {

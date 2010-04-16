@@ -25,8 +25,8 @@ public class Hero {
 	}
 	
 	public void setDirection(int dx, int dy) {
-		this.dx += dx;	// BUG!!!
-		this.dy += dy;  // BUG!!!
+		this.dx = dx;	
+		this.dy = dy;  
 	}
 	
 	public void step() {

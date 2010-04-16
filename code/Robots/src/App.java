@@ -1,4 +1,5 @@
 import game.Board;
+import game.Input;
 
 import java.util.Scanner;
 
@@ -13,22 +14,33 @@ public class App {
 		Board board = new Board(60, 22);
 		board.show();
 		
-		//board.moveActor(1, 0);
+		Input input = new Input();
 		
-		do {
-			char key = scanner.nextLine().charAt(0);
+		do 
+		{
+			// Update game
+			input.update();
 			
-			switch(key)
-			{
-				case 'a': board.translateActor(-1,  0); break;
-				case 'd': board.translateActor(+1,  0); break;
-				case 's': board.translateActor( 0, +1); break;
-				case 'w': board.translateActor( 0, -1); break;
-				case 'x': gameOver = true; break;
-			}
+			if( input.isKeyDown('a') )
+				board.translateActor(-1,  0);
+			
+			if( input.isKeyDown('s') )
+				board.translateActor( 0, +1);
+
+			if( input.isKeyDown('d') )
+				board.translateActor(+1,  0);
+
+			if( input.isKeyDown('w') )
+				board.translateActor( 0, -1);
+
+			if( input.isKeyDown('x') )
+				gameOver = true;
+
+			// draw game
 			board.show();
 			
 		} while(!gameOver);
+		
 		System.out.println("FIM");
 				
 	}
