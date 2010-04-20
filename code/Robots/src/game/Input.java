@@ -15,6 +15,9 @@ public class Input {
 			if(ce instanceof ConsoleKeyEvent)
 			{
 				ConsoleKeyEvent cke = (ConsoleKeyEvent)ce;
+				
+				cke.show();
+				
 				if(cke.keyDown) {
 					keysDown[ cke.charCode ] = true;
 					break;

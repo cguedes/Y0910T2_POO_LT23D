@@ -1,37 +1,37 @@
 package game;
 
-public class Hero {
+import common.Point;
 
-	// DADOS (coordenada no mundo)
-	private int x, y;
-	private int dx, dy;
-	private char symbol;
-	
+public class Hero extends Actor {
+
 	// Construtor
-	public Hero(int x, int y) {
-		this.x = x;
-		this.y = y;
-		this.dx = 0;
-		this.dy = 0;
-		this.symbol = '@';
+	public Hero(Point initialPosition) {
+		super(initialPosition, '@');
+		
+		this.direction = new Point(Point.STOPED);
 	}
+
+	// ############################################################
+	// Deslocamento
+	// ############################################################
+	private final Point direction;
+	public Point getDirection() { return direction; }
 	
-	public char toSymbol() { return symbol; }
-	
-	public boolean isInPosition(int xx, int yy) {
-		if(this.x == xx && this.y == yy)
-			return true;
-		return false;
-	}
-	
-	public void setDirection(int dx, int dy) {
-		this.dx = dx;	
-		this.dy = dy;  
-	}
-	
-	public void step() {
-		this.x += this.dx;
-		this.y += this.dy;
+	// ############################################################
+	// Actualização 
+	// ############################################################
+	public void update() {
+
+		direction.moveTo(Point.STOPED);
+		Input input = Game.getInstance().getInput();
+		if( input.isKeyDown('a') ) { direction.moveTo(Point.LEFT); }
+		if( input.isKeyDown('s') ) { direction.moveTo(Point.DOWN); }
+		if( input.isKeyDown('d') ) { direction.moveTo(Point.RIGHT); }
+		if( input.isKeyDown('w') ) { direction.moveTo(Point.UP); }
+
+		// Aqui sabemos que o Heroi tem a direcção definida
+		//  -> falta fazer o movimento (código implementado em Actor!)
+		super.update();
 	}
 
 }
