@@ -55,8 +55,27 @@ public abstract class Actor {
 		if( boundaryProvider.isInside(newPosition) )
 		{
 			position.moveTo(newPosition);
+			
+			// verificar colisão
+			Game.getInstance().checkCollision(this);
 		}
 
+	}
+
+	// ############################################################
+	// Colisão 
+	// ############################################################
+	public abstract void collide(Actor actor);
+
+
+	// ############################################################
+	// Tempo de vida
+	// ############################################################
+	private boolean isAlive = true;
+	public boolean isAlive() { return isAlive; }
+	
+	public void die() {
+		isAlive = false;
 	}
 
 }

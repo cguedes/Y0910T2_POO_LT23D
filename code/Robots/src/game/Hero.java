@@ -22,6 +22,8 @@ public class Hero extends Actor {
 	// ############################################################
 	public void update() {
 
+		if(!isAlive()) return;
+		
 		direction.moveTo(Point.STOPED);
 		Input input = Game.getInstance().getInput();
 		if( input.isKeyDown('a') ) { direction.moveTo(Point.LEFT); }
@@ -33,5 +35,21 @@ public class Hero extends Actor {
 		//  -> falta fazer o movimento (código implementado em Actor!)
 		super.update();
 	}
+	
+	// ############################################################
+	// Apresentação (aspecto gráfico)
+	// ############################################################
+	public char toSymbol() { 
+		if(isAlive()) { return super.toSymbol(); }
+		return '!'; 
+	}
+
+	// ############################################################
+	// Colisão 
+	// ############################################################
+	public void collide(Actor actor) {
+		
+	}
+
 
 }

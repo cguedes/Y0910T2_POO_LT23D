@@ -19,6 +19,8 @@ public class Robot extends Actor {
 		// O robot está sempre virado para o heroi
 		Point dif = Point.subtract(hero.getPosition(), getPosition() );
 		
+		return Point.LEFT;
+		/*
 		// Como o robot não anda na diagonal, colocar o menor dos valores de (x, y) a ZERO e o outro a UM
 		// Seguimos na direcção de menor valor
 		if(dif.x == 0) 
@@ -36,6 +38,34 @@ public class Robot extends Actor {
 			}
 		
 		return dif;
+		*/
+	}
+	
+	
+	// ############################################################
+	// Apresentação (aspecto gráfico)
+	// ############################################################
+	public char toSymbol() { 
+		if(isAlive()) { return super.toSymbol(); }
+		return '#'; 
+	}
+
+	// ############################################################
+	// Colisão 
+	// ############################################################
+	public void collide(Actor actor) {
+		
+		if(actor instanceof Hero) {
+			actor.die();
+			return;
+		}
+		
+		if(actor instanceof Robot) {
+			actor.die();
+			this.die();
+		}
+		
+		
 	}
 	
 }

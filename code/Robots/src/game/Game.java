@@ -47,22 +47,22 @@ public class Game {
 		input = new Input();
 		
 		// Criar actores
-		int numRobots = numLevel * 10 + numLevel / 2;
+		int numRobots = 2; //numLevel * 10 + numLevel / 2;
 		actors = new Actor[numRobots + 1];
 		int numActors = 0;
 		
 		// Adicionar o Hero
-		Point pos = getRandomPosition();
+		Point pos = new Point(20, 12); //getRandomPosition();
 		Hero hero = new Hero(pos);
 		hero.setBoundaryProvider(board);
 		
-		// Adicionar os Robots
-		for(int i = 0; i < numRobots; ++i) {
-			Point posRobot = getRandomPosition();
-			Robot robot = new Robot(posRobot, hero);
-			robot.setBoundaryProvider(board);
-			actors[numActors++] = robot;
-		}
+		Robot robot = new Robot(new Point(7, 10), hero);
+		robot.setBoundaryProvider(board);
+		actors[numActors++] = robot;
+
+		Robot robot2 = new Robot(new Point(5, 10), hero);
+		robot2.setBoundaryProvider(board);
+		actors[numActors++] = robot2;
 
 		actors[numActors++] = hero;
 		
@@ -117,6 +117,31 @@ public class Game {
 		for (int i = 0; i < actors.length; i++) {
 			board.drawActor( actors[i] );
 		}
+		
+	}
+
+	// ############################################################
+	// Colisão 
+	// ############################################################
+	public void checkCollision(Actor actor) {
+		
+		System.out.println("check collision....." + actor.toSymbol());
+		System.out.println("pos = " + actor.getPosition());
+		
+		for (int i = 0; i < actors.length; i++) {
+			Actor otherActor = actors[i];
+			if(actor != otherActor) {
+				Point actorPosition      = actor.getPosition();
+				Point otherActorPosition = otherActor.getPosition();
+				
+				if( actorPosition.equals(otherActorPosition) )
+				{
+					otherActor.collide(actor);
+					actor.collide(otherActor);
+				}
+			}
+		}
+		
 		
 	}
 	
