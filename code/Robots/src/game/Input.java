@@ -16,7 +16,7 @@ public class Input {
 			{
 				ConsoleKeyEvent cke = (ConsoleKeyEvent)ce;
 				
-				cke.show();
+				//cke.show();
 				
 				if(cke.keyDown) {
 					keysDown[ cke.charCode ] = true;

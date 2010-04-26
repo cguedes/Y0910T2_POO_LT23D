@@ -1,5 +1,8 @@
 package game;
 
+import game.actors.Actor;
+import game.actors.Hero;
+import game.actors.Robot;
 import common.Point;
 
 public class Game {
@@ -47,32 +50,28 @@ public class Game {
 		input = new Input();
 		
 		// Criar actores
-		int numRobots = 2; //numLevel * 10 + numLevel / 2;
+		int numRobots = numLevel * 10 + numLevel / 2;
 		actors = new Actor[numRobots + 1];
 		int numActors = 0;
 		
 		// Adicionar o Hero
-		Point pos = new Point(20, 12); //getRandomPosition();
+		Point pos = new Point(getRandomPosition());
 		Hero hero = new Hero(pos);
 		hero.setBoundaryProvider(board);
 		
-		Robot robot = new Robot(new Point(7, 10), hero);
-		robot.setBoundaryProvider(board);
-		actors[numActors++] = robot;
-
-		Robot robot2 = new Robot(new Point(5, 10), hero);
-		robot2.setBoundaryProvider(board);
-		actors[numActors++] = robot2;
+		for(int i = 0; i < numRobots; ++i) {
+			Robot robot = new Robot(getRandomPosition(), hero);
+			robot.setBoundaryProvider(board);
+			actors[numActors++] = robot;
+		}
 
 		actors[numActors++] = hero;
-		
-		
 	}
 	
-	private Point getRandomPosition() {
+	public Point getRandomPosition() {
 		Point p = new Point();
-		p.x = Math.random() * NUM_COLS;
-		p.y = Math.random() * NUM_LINES;
+		p.x = (int)(Math.random() * NUM_COLS);
+		p.y = (int)(Math.random() * NUM_LINES);
 		return p;
 	}
 
@@ -112,12 +111,13 @@ public class Game {
 	}
 
 	private void drawGame() {
-		board.drawFixedParts();
+		board.clear();
 		
 		for (int i = 0; i < actors.length; i++) {
-			board.drawActor( actors[i] );
+			board.writeActor(actors[i]);
 		}
-		
+
+		board.draw();
 	}
 
 	// ############################################################
@@ -136,8 +136,9 @@ public class Game {
 				
 				if( actorPosition.equals(otherActorPosition) )
 				{
-					otherActor.collide(actor);
+					// O actor colide com o outro (variável de iteração do ciclo)
 					actor.collide(otherActor);
+					otherActor.collide(actor);
 				}
 			}
 		}

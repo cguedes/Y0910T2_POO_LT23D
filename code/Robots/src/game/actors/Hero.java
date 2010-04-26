@@ -1,5 +1,7 @@
-package game;
+package game.actors;
 
+import game.Game;
+import game.Input;
 import common.Point;
 
 public class Hero extends Actor {
@@ -31,6 +33,12 @@ public class Hero extends Actor {
 		if( input.isKeyDown('d') ) { direction.moveTo(Point.RIGHT); }
 		if( input.isKeyDown('w') ) { direction.moveTo(Point.UP); }
 
+		// Teleport
+		if(input.isKeyDown('t') ) {
+			Point newPos = Game.getInstance().getRandomPosition();
+			direction.moveTo(Point.subtract(newPos, getPosition()));
+		}
+		
 		// Aqui sabemos que o Heroi tem a direcção definida
 		//  -> falta fazer o movimento (código implementado em Actor!)
 		super.update();
@@ -41,7 +49,7 @@ public class Hero extends Actor {
 	// ############################################################
 	public char toSymbol() { 
 		if(isAlive()) { return super.toSymbol(); }
-		return '!'; 
+		return '#'; 
 	}
 
 	// ############################################################

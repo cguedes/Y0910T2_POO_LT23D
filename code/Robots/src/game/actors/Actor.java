@@ -1,5 +1,7 @@
-package game;
+package game.actors;
 
+import game.BoundaryProvider;
+import game.Game;
 import common.Point;
 
 public abstract class Actor {
@@ -67,7 +69,7 @@ public abstract class Actor {
 	// ############################################################
 	public abstract void collide(Actor actor);
 
-
+	
 	// ############################################################
 	// Tempo de vida
 	// ############################################################
