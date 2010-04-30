@@ -1,0 +1,4 @@
+ola,
+ estamos na aula de 6ª-feira
+ 
+de POO.
