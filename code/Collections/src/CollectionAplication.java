@@ -15,8 +15,27 @@ public class CollectionAplication {
 			
 			ArrayList<String> lines = CollectionUtils.getLines(fileBufferedReader);
 			lines = CollectionUtils.filterByWord(lines, "Alice");
+			
 			System.out.println("Numero de linhas: " + lines.size());
-		
+			// Mostrar as linhas que contêm alice, usando iterador
+			// de duas formas distintas:
+			//   a) Usando EXPLICITAMENTE o método iterator
+			System.out.println("--------------------- Método 1 ---------------------");
+			Iterator<String> iter = lines.iterator();
+			while( iter.hasNext() )
+			{
+				String line = iter.next();
+				System.out.println(line);
+			}
+			
+			//   b) Usando IMPLICITAMENTE o método iterator (usa-se a interface Iterable<E>)
+			System.out.println("--------------------- Método 2 ---------------------");
+			Iterable<String> iterableLines = lines;
+			for(String line: iterableLines)
+			{
+				System.out.println(line);
+			}
+			
 		}
 		catch(FileNotFoundException e)
 		{
