@@ -13,8 +13,10 @@ public class CollectionAplication {
 				new BufferedReader( 
 						new FileReader("AliceNoPaisDasMaravilhas.txt") );
 			
-			ArrayList<String> lines = CollectionUtils.getLines(fileBufferedReader);
+			Collection<String> lines = CollectionUtils.getLines(fileBufferedReader);
+			System.out.println(lines.getClass().toString());
 			lines = CollectionUtils.filterByWord(lines, "Alice");
+			System.out.println(lines.getClass().toString());
 			
 			System.out.println("Numero de linhas: " + lines.size());
 			// Mostrar as linhas que contêm alice, usando iterador
@@ -30,8 +32,7 @@ public class CollectionAplication {
 			
 			//   b) Usando IMPLICITAMENTE o método iterator (usa-se a interface Iterable<E>)
 			System.out.println("--------------------- Método 2 ---------------------");
-			Iterable<String> iterableLines = lines;
-			for(String line: iterableLines)
+			for(String line: lines)
 			{
 				System.out.println(line);
 			}
