@@ -49,7 +49,7 @@ public class IteratorsTests {
 			String name = si.next();
 			System.out.println(name);
 		}
-		
+		String bummmm = si.next();
 	}
 
 
