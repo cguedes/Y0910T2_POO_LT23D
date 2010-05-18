@@ -14,7 +14,7 @@ public class TestApplication {
 		testAdd();
 		testAddElementsToLimitedSizeCollection();
 		testAddElementsToUnlimitedSizeCollection();
-		testAddAdd();
+		testAddAll();
 		testIteratorHasNextAndNext();
 	}
 	
@@ -97,7 +97,7 @@ public class TestApplication {
 		System.out.println("Fim do teste [testAddElementsToUnlimitedSizeCollection]");
 	}
 	
-	private static void testAddAdd() {
+	private static void testAddAll() {
 
 		System.out.println("Inicio do teste [testAddAdd]");
 
