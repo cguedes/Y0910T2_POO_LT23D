@@ -2,35 +2,37 @@ package customCollections;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.NoSuchElementException;
+
 import iterators.ObjectArrayIterator;;
 
-public class ArrayCollection implements Collection<Object> {
+public class ArrayCollectionWithIteratorInterface implements Collection<Object>, Iterator<Object> {
 
 	private final boolean autoGrow;				// indica se o array cresce automaticamente
 	private static final int DEFAULT_SIZE = 4;	// número de "slots" livres no modo de crescimento automático
 	
 	private Object[] data;		// elementos da colecção
-	public int pos = 0;		// índice do próximo "slot" livre no array
+	private int pos = 0;		// índice do próximo "slot" livre no array
 	
 	// ########################################################################
 	// Construction
 	// ########################################################################
 
 	// construtor auxiliar
-	private ArrayCollection(boolean isToAutoGrow, int dataSize)
+	private ArrayCollectionWithIteratorInterface(boolean isToAutoGrow, int dataSize)
 	{
 		autoGrow = isToAutoGrow;
 		data = new Object[dataSize];
 	}
 	
 	// Colecção dinâmica (cresce à medida das necessidades)
-	public ArrayCollection()
+	public ArrayCollectionWithIteratorInterface()
 	{
 		this(true, DEFAULT_SIZE);
 	}
 	
 	// Colecção com número máximo de elementos
-	public ArrayCollection(int maxSize)
+	public ArrayCollectionWithIteratorInterface(int maxSize)
 	{
 		this(false, maxSize);
 	}
@@ -141,7 +143,9 @@ public class ArrayCollection implements Collection<Object> {
 	// ########################################################################
 	@Override
 	public Iterator<Object> iterator() {
-		return new ObjectArrayIterator(data, 0, pos, this);
+		// Não esquecer do "reset" ao índice do iterador
+		iteratorPos = 0;
+		return this;
 	}
 
 
@@ -159,5 +163,42 @@ public class ArrayCollection implements Collection<Object> {
 		throw new UnsupportedOperationException();
 	}
 
+	// ########################################################################
+	// Implementação da interface de Iterator<Object>
+	// ########################################################################
+	private int iteratorPos; // indice usado, pelo next, para retornar valores
+	
+	@Override
+	public boolean hasNext() {
+		return data != null && iteratorPos < pos;
+	}
+
+	@Override
+	public Object next() {
+		if(!hasNext()) throw new NoSuchElementException();
+		
+		Object strReturn = data[iteratorPos];
+		++iteratorPos;
+		return strReturn;
+	}
+
+	@Override
+	public void remove() {
+		// Para remover o elemento (último retornado pelo next), 
+		//  movem-se todos os seguintes elementos para trás
+		//   ex: para remover input[4] movemos para input[4] = input[5] e "por ai em diante" até firstInvalidIndex
+		
+		int from = iteratorPos;
+		int to = pos;
+		int dst = iteratorPos - 1;
+		
+		while(from < to) {
+			data[dst++] = data[from++];
+		}
+		
+		pos -= 1;
+		
+	}
+	
 	
 }

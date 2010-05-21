@@ -16,6 +16,9 @@ public class TestApplication {
 		testAddElementsToUnlimitedSizeCollection();
 		testAddAll();
 		testIteratorHasNextAndNext();
+		
+		testIteratorRemove();
+		testIteratorRemoveInArrayCollectionWithIteratorInterface();
 	}
 	
 	private static void testAdd()
@@ -154,6 +157,87 @@ public class TestApplication {
 		
 	}
 
+	
+	private static void testIteratorRemove() {
+
+		System.out.println("Inicio do teste [testIteratorRemove]");
+
+		Collection<Object> ac = new ArrayCollection();
+		ac.add("Zero");
+		ac.add("Um");
+		ac.add("Dois");
+		ac.add("Três");
+		ac.add("Quatro");
+		int sz = ac.size();
+		System.out.println("Size: " + sz);
+		if(sz != 5) System.err.println("Erro, o size tem que ser cinco");
+		
+		// Iterar até "Dois" e removê-lo
+		Iterator<Object> it = ac.iterator();
+		while(it.hasNext())
+		{
+			Object elem = it.next();
+			if("Dois".equals(elem))
+			{
+				it.remove();
+			}
+		}
+		
+		// Mostrar os elementos da colecção, e respectivo size
+		for(Object elem: ac)
+		{
+			System.out.println(elem);
+		}
+		
+		sz = ac.size();
+		System.out.println("Size: " + sz);
+		if(sz != 4) System.err.println("Erro, o size tem que ser quatro");
+		
+		
+		System.out.println("Fim do teste [testIteratorRemove]");
+		
+	}
+
+
+	private static void testIteratorRemoveInArrayCollectionWithIteratorInterface() {
+
+		System.out.println("Inicio do teste [testIteratorRemoveInArrayCollectionWithIteratorInterface]");
+
+		Collection<Object> ac = new ArrayCollectionWithIteratorInterface();
+		ac.add("Zero");
+		ac.add("Um");
+		ac.add("Dois");
+		ac.add("Três");
+		ac.add("Quatro");
+		int sz = ac.size();
+		System.out.println("Size: " + sz);
+		if(sz != 5) System.err.println("Erro, o size tem que ser cinco");
+		
+		// Iterar até "Dois" e removê-lo
+		Iterator<Object> it = ac.iterator();
+		while(it.hasNext())
+		{
+			Object elem = it.next();
+			if("Dois".equals(elem))
+			{
+				it.remove();
+			}
+		}
+		
+		// Mostrar os elementos da colecção, e respectivo size
+		for(Object elem: ac)
+		{
+			System.out.println(elem);
+		}
+		
+		sz = ac.size();
+		System.out.println("Size: " + sz);
+		if(sz != 4) System.err.println("Erro, o size tem que ser quatro");
+		
+		
+		System.out.println("Fim do teste [testIteratorRemoveInArrayCollectionWithIteratorInterface]");
+		
+	}
 }
 
 
