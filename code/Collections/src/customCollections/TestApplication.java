@@ -203,7 +203,7 @@ public class TestApplication {
 
 		System.out.println("Inicio do teste [testIteratorRemoveInArrayCollectionWithIteratorInterface]");
 
-		Collection<Object> ac = new ArrayCollectionWithIteratorInterface();
+		Collection<Object> ac = new ArrayCollectionWithInternalIteratorInterface();
 		ac.add("Zero");
 		ac.add("Um");
 		ac.add("Dois");
