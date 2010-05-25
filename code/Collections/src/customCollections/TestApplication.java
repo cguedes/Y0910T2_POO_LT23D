@@ -19,6 +19,7 @@ public class TestApplication {
 		
 		testIteratorRemove();
 		testIteratorRemoveInArrayCollectionWithIteratorInterface();
+		
 	}
 	
 	private static void testAdd()
