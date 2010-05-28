@@ -2,13 +2,16 @@ package linkedListCollections;
 
 import java.util.*;
 
+import javax.naming.OperationNotSupportedException;
+
 /**
  * 	Colecção de objectos baseda em lista ligada (conjunto de nós)
  * 
  */
 public class LinkedListCollection implements Collection<Object> 
  {
-	private class Node {
+	// Os objectos de classes internas static NÃO TÊM ACESSO ao objecto que os criaram
+	private static class Node {
 		public Node Link;		// ligação para o próximo nó da lista
 								// Quando tiver NULL quer dizer que é o último
 		public Object Value;	
@@ -22,6 +25,8 @@ public class LinkedListCollection implements Collection<Object>
 	}
 	
 	private Node head = null;	// REFERÊNCIA para o PRIMEIRO NÓ da lista
+	
+	private int sz = 0;	// número de elementos na colecção
 	
 	// ########################################################################
 	// Construction
@@ -39,51 +44,51 @@ public class LinkedListCollection implements Collection<Object>
 	{
 		Node newNode = new Node(obj2Add);
 		
-		if(isEmpty()) {
+		if(isEmpty()) 
+		{
 			head = newNode;
+			++sz;
 			return true;
 		}
 		
-		// Se tem elementos, temos que procurar o último nó e adicionar ai!
-		Node n = head;
-		while(n.Link != null)
-			n = n.Link;	// avançar para o próximo nó
-		
-		n.Link = newNode;	// "ligar" o último nó da lista ao novo nó
+		// Adicionar o nó no início
+		newNode.Link = head;
+		head = newNode;
+		++sz;
 		return true;
-
+		
 	}
 
 	@Override
 	public boolean addAll(Collection<? extends Object> sourceCollection) {
-		throw new NotImplementedException();
+		throw new UnsupportedOperationException();
 	}
 
 	@Override
 	public void clear() {
-		throw new NotImplementedException();
+		throw new UnsupportedOperationException();
 	}
 
 	@Override
 	public boolean remove(Object objToRemove) {
-		throw new NotImplementedException();
+		throw new UnsupportedOperationException();
 	}
 
 	@Override
 	public boolean removeAll(Collection<?> elemsToRemove) {
-		throw new NotImplementedException();
+		throw new UnsupportedOperationException();
 	}
 	
 	@Override
 	public boolean retainAll(Collection<?> arg0) {
-		throw new NotImplementedException();
+		throw new UnsupportedOperationException();
 	}
 
 	// ########################################################################
 	// Query
 	// ########################################################################	
 	public int size() {
-		throw new NotImplementedException();
+		return sz;
 	}
 
 	@Override
@@ -93,12 +98,12 @@ public class LinkedListCollection implements Collection<Object>
 
 	@Override
 	public boolean contains(Object objToFind) {
-		throw new NotImplementedException();
+		throw new UnsupportedOperationException();
 	}
 
 	@Override
 	public boolean containsAll(Collection<?> arg0) {
-		throw new NotImplementedException();
+		throw new UnsupportedOperationException();
 	}
 
 	// ########################################################################
@@ -106,7 +111,36 @@ public class LinkedListCollection implements Collection<Object>
 	// ########################################################################
 	@Override
 	public Iterator<Object> iterator() {
-		throw new NotImplementedException();
+		return new LinkedListIterator();
+	}
+	
+	private class LinkedListIterator implements Iterator<Object> {
+		
+		private Node node;
+		
+		public LinkedListIterator() {
+			node = head;
+		}
+		
+		@Override
+		public boolean hasNext() {
+			return node != null;
+		}
+		
+		@Override
+		public Object next() {
+			
+			if(node == null) throw new NoSuchElementException();
+			
+			Object elem = node.Value;
+			node = node.Link;
+			return elem;
+		}
+		
+		@Override
+		public void remove() {
+			throw new UnsupportedOperationException();
+		}
 	}
 
 
@@ -116,7 +150,7 @@ public class LinkedListCollection implements Collection<Object>
 
 	@Override
 	public Object[] toArray() {
-		throw new NotImplementedException();
+		throw new UnsupportedOperationException();
 	}
 
 	@Override
