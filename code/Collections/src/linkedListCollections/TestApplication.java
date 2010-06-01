@@ -19,9 +19,28 @@ public class TestApplication {
 		ll.add("Dois");
 		ll.add("Três");
 		ll.add("Quatro");
+		ll.add("Cinco");
+		ll.add("Seis");
 				
-		System.out.println(ll.size());
+		showValues(ll);
 		
+		// Remover dois elementos do meio
+		int i = 3;
+		Iterator<Object> iRemove = ll.iterator();
+		while(i-- > 0) iRemove.next();
+		iRemove.remove();
+		iRemove.next();
+		iRemove.remove();
+
+		showValues(ll);
+		
+		
+		
+	}
+
+	private static void showValues(Collection<Object> ll) {
+		System.out.println("SIZE --------------------------------------------");
+		System.out.println(ll.size());
 		// uso do iterador
 		System.out.println("ITERATOR ----------------------------------------");
 		Iterator<Object> lli = ll.iterator();
@@ -32,9 +51,6 @@ public class TestApplication {
 		}
 		//Object elem = lli.next();	// lança excepção NoSuchElementException
 		System.out.println("--------------------------------------------------");
-		
-		
-		
 	}
 
 }

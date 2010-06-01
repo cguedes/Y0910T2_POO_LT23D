@@ -1,5 +1,6 @@
 package linkedListCollections;
 
+import java.nio.channels.IllegalSelectorException;
 import java.util.*;
 
 import javax.naming.OperationNotSupportedException;
@@ -35,6 +36,8 @@ public class LinkedListCollection implements Collection<Object>
 	// Colecção dinâmica (cresce à medida das necessidades)
 	public LinkedListCollection()
 	{
+		// Adição da sentinela (para simplificar a adição/remoção)
+		head = new Node(null);	// A sentinela não tem valor definido!
 	}
 	
 	// ########################################################################
@@ -42,18 +45,16 @@ public class LinkedListCollection implements Collection<Object>
 	// ########################################################################
 	public boolean add(Object obj2Add)
 	{
+		// Criar o novo nó
 		Node newNode = new Node(obj2Add);
 		
-		if(isEmpty()) 
-		{
-			head = newNode;
-			++sz;
-			return true;
-		}
+		// Adicionar o novo nó "na cabeça da lista" 
+		//  -> a seguir à sentinela e antes do primeiro nó
+		newNode.Link = head.Link;
+		head.Link = newNode;
 		
-		// Adicionar o nó no início
-		newNode.Link = head;
-		head = newNode;
+		// Nota: head.Link é uma referência para o 1º nó da lista
+		
 		++sz;
 		return true;
 		
@@ -66,7 +67,8 @@ public class LinkedListCollection implements Collection<Object>
 
 	@Override
 	public void clear() {
-		throw new UnsupportedOperationException();
+		head.Link = null;
+		sz = 0;
 	}
 
 	@Override
@@ -93,7 +95,7 @@ public class LinkedListCollection implements Collection<Object>
 
 	@Override
 	public boolean isEmpty() {
-		return head == null;
+		return head.Link == null;
 	}
 
 	@Override
@@ -114,32 +116,57 @@ public class LinkedListCollection implements Collection<Object>
 		return new LinkedListIterator();
 	}
 	
-	private class LinkedListIterator implements Iterator<Object> {
-		
-		private Node node;
+	// 	»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»»» 
+	// 	Implementação da classe interna que implementa o Iterator<Object>
+	// 	«««««««««««««««««««««««««««««««««««««««««««««««««««««««««««««««««
+	private class LinkedListIterator implements Iterator<Object>
+	{	
+		private Node prev;
+		private Node returnedByNext;
 		
 		public LinkedListIterator() {
-			node = head;
+			prev = null;
+			returnedByNext = head;
 		}
 		
 		@Override
 		public boolean hasNext() {
-			return node != null;
+			return returnedByNext.Link != null;
 		}
 		
 		@Override
 		public Object next() {
 			
-			if(node == null) throw new NoSuchElementException();
+			if(!hasNext()) throw new NoSuchElementException();
 			
-			Object elem = node.Value;
-			node = node.Link;
-			return elem;
+			// Se houve remoção prev fica igual
+			// Caso contrário prev = returnedByNext
+			if(prev == null || prev.Link == returnedByNext) {
+				// Não houve remoção
+				// actualizar o prev antes de avançar
+				prev = returnedByNext;				
+			}
+			
+			// avançar o returnedByNext
+			returnedByNext = returnedByNext.Link;
+
+			// Retornar o valor contido em returnedByNext
+			return returnedByNext.Value;
 		}
 		
 		@Override
-		public void remove() {
-			throw new UnsupportedOperationException();
+		public void remove() 
+		{
+			// Lançar excepção porque o next nunca foi chamado
+			if(prev == null) throw new IllegalStateException();
+			
+			// Lançar excepção porque o remove já foi chamado uma vez (e next não foi chamado entretanto)
+			if(prev.Link != returnedByNext) throw new IllegalStateException();
+			
+			prev.Link = returnedByNext.Link;
+			
+			sz -= 1;	// decrementar o número de elementos na lista 
+
 		}
 	}
 
@@ -158,48 +185,5 @@ public class LinkedListCollection implements Collection<Object>
 		throw new UnsupportedOperationException();
 	}
 
-	// ########################################################################
-	// Implementação da classe interna que implementa o Iterator<Object>
-	// ########################################################################
-	/*
-	public class ACIterator implements Iterator<Object>
-	{
-		private int iteratorPos; // indice usado, pelo next, para retornar valores
-		
-		@Override
-		public boolean hasNext() {
-			// NOTA: O acesso à variável de instância [pos] é feito
-			//       via ligação IMPLICITA ao objecto que fez new deste tipo!
-			//       O acesso é permitido, mesmo que a variável seja private :-)
-			return data != null && iteratorPos < pos;
-		}
-	
-		@Override
-		public Object next() {
-			if(!hasNext()) throw new NoSuchElementException();
-			
-			Object strReturn = data[iteratorPos];
-			++iteratorPos;
-			return strReturn;
-		}
-	
-		@Override
-		public void remove() {
-			// Para remover o elemento (último retornado pelo next), 
-			//  movem-se todos os seguintes elementos para trás
-			//   ex: para remover input[4] movemos para input[4] = input[5] e "por ai em diante" até firstInvalidIndex
-			
-			int from = iteratorPos;
-			int to = pos;
-			int dst = iteratorPos - 1;
-			
-			while(from < to) {
-				data[dst++] = data[from++];
-			}
-			
-			pos -= 1;
-			
-		}
-	}	// end of ACIterator...	
-	*/
+
 }
