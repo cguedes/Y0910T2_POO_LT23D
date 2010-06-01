@@ -8,7 +8,8 @@ import collection.POOAbstractCollection;
  * 	Colecção de objectos baseda em lista ligada (conjunto de nós)
  * 
  */
-public class LinkedListCollection implements Collection<Object> 
+public class LinkedListCollectionExtendedFromAbstract 
+					extends POOAbstractCollection 
  {
 	// Os objectos de classes internas static NÃO TÊM ACESSO ao objecto que os criaram
 	private static class Node {
@@ -25,7 +26,6 @@ public class LinkedListCollection implements Collection<Object>
 	}
 	
 	private Node head = null;	// REFERÊNCIA para o PRIMEIRO NÓ da lista
-	
 	private int sz = 0;	// número de elementos na colecção
 	
 	// ########################################################################
@@ -33,7 +33,7 @@ public class LinkedListCollection implements Collection<Object>
 	// ########################################################################
 
 	// Colecção dinâmica (cresce à medida das necessidades)
-	public LinkedListCollection()
+	public LinkedListCollectionExtendedFromAbstract()
 	{
 		// Adição da sentinela (para simplificar a adição/remoção)
 		head = new Node(null);	// A sentinela não tem valor definido!
@@ -59,58 +59,16 @@ public class LinkedListCollection implements Collection<Object>
 		
 	}
 
-	@Override
-	public boolean addAll(Collection<? extends Object> sourceCollection) {
-
-		Iterator<? extends Object> i = sourceCollection.iterator();
-		while(i.hasNext())
-			add( i.next() );
-		
-		return true;
-
-	}
-
+	// Implementação mais eficiente :-)
 	@Override
 	public void clear() {
 		head.Link = null;
 		sz = 0;
 	}
 
-	@Override
-	public boolean remove(Object objToRemove) {
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	public boolean removeAll(Collection<?> elemsToRemove) {
-		throw new UnsupportedOperationException();
-	}
-	
-	@Override
-	public boolean retainAll(Collection<?> arg0) {
-		throw new UnsupportedOperationException();
-	}
-
-	// ########################################################################
-	// Query
-	// ########################################################################	
+	// Implementação mais eficiente :-)
 	public int size() {
 		return sz;
-	}
-
-	@Override
-	public boolean isEmpty() {
-		return head.Link == null;
-	}
-
-	@Override
-	public boolean contains(Object objToFind) {
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	public boolean containsAll(Collection<?> arg0) {
-		throw new UnsupportedOperationException();
 	}
 
 	// ########################################################################
@@ -174,21 +132,5 @@ public class LinkedListCollection implements Collection<Object>
 
 		}
 	}
-
-
-	// ########################################################################
-	// Auxiliar
-	// ########################################################################
-
-	@Override
-	public Object[] toArray() {
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	public <T> T[] toArray(T[] arg0) {
-		throw new UnsupportedOperationException();
-	}
-
 
 }
