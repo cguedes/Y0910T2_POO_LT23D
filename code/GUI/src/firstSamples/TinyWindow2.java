@@ -1,4 +1,4 @@
-package ui;
+package firstSamples;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -7,27 +7,35 @@ import javax.swing.*;
 
 import sun.font.FontFamily;
 
-public class DogAgeFrame1 extends JFrame {
+public class TinyWindow2 {
 
-	public DogAgeFrame1() 
+	/**
+	 * @param args
+	 */
+	public static void main(String[] args) 
 	{
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setTitle("Tiny Window 2");
+
+		JFrame window = new JFrame();
+		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		window.setTitle("Tiny Window 2");
 		
 		// Criação da label (bloco de texto)
 		JLabel lblHello = new JLabel();
-		lblHello.setText("Hello World, and POO STUDENTS :-)");	
+		lblHello.setText("Hello World, and POO students :-)");	
 		lblHello.setForeground(Color.RED);
 		lblHello.setBackground(Color.YELLOW);
 		lblHello.setOpaque(true);
 		
 		// Adicionar a label à janela
-		add(lblHello);
+		window.add(lblHello);
 		
 		// Ajustar a janela à dimensão necessária para apresentar
 		// todos os seus componentes filho, com as suas dimensões
 		// preferidas
-		pack();
+		window.pack();
+		
+		// Mostra a janela (última chamada a método)
+		window.setVisible(true);
 	}
 
 }

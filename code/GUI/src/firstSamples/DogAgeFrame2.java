@@ -1,4 +1,4 @@
-package ui;
+package firstSamples;
 
 import java.awt.*;
 import java.awt.event.*;
