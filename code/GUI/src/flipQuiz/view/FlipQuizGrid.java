@@ -1,36 +1,65 @@
 package flipQuiz.view;
 
-import java.awt.Color;
 import java.awt.GridLayout;
 
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import flipQuiz.model.Game;
+import flipQuiz.model.FlipQuizModel;
+import flipQuiz.model.GameListener;
+import flipQuiz.model.Piece;
 
-public class FlipQuizGrid extends JPanel {
+public class FlipQuizGrid extends JPanel implements GameListener
+{
 
-	private final Game game;
+	private final FlipQuizModel model;
+	private final PieceView[][] pieces;
 
-	public FlipQuizGrid(Game game) {
-		this.game = game;
+	public FlipQuizGrid(FlipQuizModel model) 
+	{
+		this.model = model;
 		
-		this.setLayout(new GridLayout(2, 3));
+		pieces = new PieceView[model.getNumRows()][model.getNumCols()];
 		
-		this.setOpaque(true);
-		//this.setBackground(Color.RED);
+		// Setup UI -----------------------------------------------------------
+		this.setLayout(new GridLayout(model.getNumRows(), model.getNumCols(), 2, 2));
+
+		for(int r = 0; r < model.getNumRows(); ++r)
+			for(int c = 0; c < model.getNumCols(); ++c)
+			{
+				Piece piece = model.get(r, c);
+				PieceView pieceView = new PieceView(piece, model);
+				
+				this.add(pieceView);
+				
+				pieces[r][c] = pieceView;
+			}
 		
 		
-		this.add(new JLabel(" a "));
-		this.add(new JLabel(" b "));
-		this.add(new JLabel(" c "));
-		this.add(new JLabel(" d "));
-		this.add(new JLabel(" e "));
-		this.add(new JLabel(" f "));
-		
-		
+		model.addGameListener(this);
 	}
 
-	
-	
+	@Override
+	public void pairFormed(Piece first, Piece second)
+	{
+		pieceUpdated(first);
+		pieceUpdated(second);
+	}
+
+	@Override
+	public void pieceUpdated(Piece piece) 
+	{
+		getPieceView(piece).updatePiece();
+	}
+
+	private PieceView getPieceView(Piece piece) {
+		PieceView pv = pieces[piece.getPosition().y][piece.getPosition().x];
+		return pv;
+	}
+
+	@Override
+	public void turnChanged(int turn) 
+	{
+		// Nothing to do here
+	}
+
 }

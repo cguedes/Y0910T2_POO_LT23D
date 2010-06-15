@@ -4,20 +4,33 @@ import java.awt.Point;
 
 public class Piece 
 {
-	private final String symbol;
+	private char symbol;
 	private final Point position;
-	private boolean isVisible;
+	private boolean isSelected;
+	private boolean isDiscovered;
 
 	public Piece(char symbol, Point position) 
 	{
-		this.symbol = "" + symbol;
-		this.position = position;
-		this.setVisible(false);
+		this(position);
+		
+		this.setSymbol(symbol);
+		
+		isSelected = false;
+		setDiscovered(false);
 	}
 
-	public String getSymbol() 
+	public Piece(Point position) {
+		this.position = position;
+	}
+
+	public char getSymbol() 
 	{
-		return isVisible ? symbol : " ";
+		return symbol;
+	}
+
+	public void setSymbol(char symbol) {
+		this.symbol = symbol;
+		setDiscovered(false);
 	}
 
 	public Point getPosition() 
@@ -25,14 +38,26 @@ public class Piece
 		return position;
 	}
 
-	public void setVisible(boolean isVisible) 
+	public void setSelected(boolean isSelected) 
 	{
-		this.isVisible = isVisible;
+		this.isSelected = isSelected;
 	}
 
-	public boolean isVisible() 
+	public boolean isSelected() 
 	{
-		return isVisible;
+		return isSelected;
+	}
+	
+	public void setDiscovered(boolean isDiscovered) 
+	{
+		this.isDiscovered = isDiscovered;
+		if(isDiscovered == false)
+			setSelected(false);
+	}
+
+	public boolean isDiscovered() 
+	{
+		return isDiscovered;
 	}
 	
 	@Override
@@ -42,7 +67,11 @@ public class Piece
 			return false;
 		
 		Piece other = (Piece)obj;
-		return this.symbol.equals(other.symbol);
+		return this.symbol == other.symbol;
 	}
+
+
+
+
 	
 }
